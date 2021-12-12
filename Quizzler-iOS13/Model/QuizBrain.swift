@@ -20,10 +20,16 @@ struct QuizBrain {
                 Question(text: "9- Seven * Three euqual to Twenty One", answer: "True")]
 
     private var questionNumber = 0
+    private var score = 0
 
-    func checkAnswer(with userAnswer: String) -> Bool {
+    mutating func checkAnswer(with userAnswer: String) -> Bool {
         let actualAnser = quiz[questionNumber].answer
-        return userAnswer == actualAnser ? true : false
+        if userAnswer == actualAnser {
+            score += 1
+            return true
+        } else {
+            return false
+        }
     }
 
     func getProgress() -> Float {
@@ -31,10 +37,19 @@ struct QuizBrain {
     }
 
     mutating func incrementQuestion(){
-        questionNumber = quiz.count > questionNumber+1 ? questionNumber + 1 : 0
+        if quiz.count > questionNumber+1 {
+            questionNumber = questionNumber + 1
+        } else {
+            questionNumber = 0
+            score = 0
+        }
     }
 
     func getQuestionText() -> String {
         return quiz[questionNumber].text
+    }
+
+    func getScore() -> String {
+        return "Score:" + " \(score)"
     }
 }
